@@ -19,10 +19,27 @@
                 </div>
             </div>
                 
-            <div class="flex bg-gray-200 mb-16 rounded-lg p-8 shadow-md">
+            <div class="flex bg-gray-400 mb-16 rounded-lg p-8 shadow-md">
                 <div class="w-1/3 mr-8">
                     <form method="POST" action="/insights">
                         @csrf
+                        <div class="bg-gray-200 p-4 my-4 rounded shadow-xs hover:shadow">
+                            <div class="checkbox-title flex justify-between cursor-pointer items-center {{ $selectedStates ? "active" : "" }}">
+                                <h2 class="text-2xl"><span class="expander-symbol w-6 inline-block">{{ $selectedStates ? "-" : "+" }}</span> State</h2>
+                                <span class="text-sm text-blue-400 clear-checkboxes">clear</span>
+                            </div>
+                            <div id="state-checkboxes" class="checkboxes" {!! $selectedStates ? "" : "style='display: none;'" !!}>
+                            @foreach ($states as $state)
+                                <label class="md:w-2/3 block font-bold">
+                                    <input class="mr-2 leading-tight" type="checkbox" name="states[]" value="{{ $state->id }}" {{ in_array($state->id, $selectedStates) ? "checked" : "" }}>
+                                    <span class="text-sm">
+                                        {{ $state->name }}
+                                    </span>
+                                </label>    
+                            @endforeach
+                            </div>
+                        </div>
+
                         <h2 class="text-2xl">Age</h2>
                         @foreach ($ages as $age)
                             <label class="md:w-2/3 block font-bold">
@@ -43,7 +60,7 @@
                             </label>     
                         @endforeach
 
-                        <h2 class="text-2xl">Indigenous Status</h2>
+                        <h2 class="text-2xl my-2">Indigenous Status</h2>
                         @foreach ($indigenousStatuses as $indigenousStatus)
                             <label class="md:w-2/3 block font-bold">
                                 <input class="mr-2 leading-tight" type="checkbox" name="indigenous_statues[]" value="{{ $indigenousStatus->id }}" {{ in_array($indigenousStatus->id, $selectedIndigenousStatuses) ? "checked" : "" }}>
@@ -53,7 +70,7 @@
                             </label>    
                         @endforeach
 
-                        <h2 class="text-2xl">Language</h2>
+                        <h2 class="text-2xl my-2">Language</h2>
                         @foreach ($languages as $language)
                             <label class="md:w-2/3 block font-bold">
                                 <input class="mr-2 leading-tight" type="checkbox" name="languages[]" value="{{ $language->id }}" {{ in_array($language->id, $selectedLanguages) ? "checked" : "" }}>
@@ -63,12 +80,52 @@
                             </label>    
                         @endforeach
 
-                        <h2 class="text-2xl">Country of Birth</h2>
+                        <h2 class="text-2xl my-2">Country of Birth</h2>
                         @foreach ($countryOfBirths as $countryOfBirth)
                             <label class="md:w-2/3 block font-bold">
                                 <input class="mr-2 leading-tight" type="checkbox" name="country_of_births[]" value="{{ $countryOfBirth->id }}" {{ in_array($countryOfBirth->id, $selectedCountryOfBirths) ? "checked" : "" }}>
                                 <span class="text-sm">
                                     {{ $countryOfBirth->name }}
+                                </span>
+                            </label>    
+                        @endforeach
+
+                        <h2 class="text-2xl my-2">Activities of Daily Living Needs</h2>
+                        @foreach ($ADLs as $ADL)
+                            <label class="md:w-2/3 block font-bold">
+                                <input class="mr-2 leading-tight" type="checkbox" name="adls[]" value="{{ $ADL->id }}" {{ in_array($ADL->id, $selectedADLs) ? "checked" : "" }}>
+                                <span class="text-sm">
+                                    {{ $ADL->name }}
+                                </span>
+                            </label>    
+                        @endforeach
+
+                        <h2 class="text-2xl my-2">Behavioural Needs</h2>
+                        @foreach ($BEHs as $BEH)
+                            <label class="md:w-2/3 block font-bold">
+                                <input class="mr-2 leading-tight" type="checkbox" name="behs[]" value="{{ $BEH->id }}" {{ in_array($BEH->id, $selectedBEHs) ? "checked" : "" }}>
+                                <span class="text-sm">
+                                    {{ $BEH->name }}
+                                </span>
+                            </label>    
+                        @endforeach
+
+                        <h2 class="text-2xl my-2">Complex Health Care Needs</h2>
+                        @foreach ($CHCs as $CHC)
+                            <label class="md:w-2/3 block font-bold">
+                                <input class="mr-2 leading-tight" type="checkbox" name="chcs[]" value="{{ $CHC->id }}" {{ in_array($CHC->id, $selectedCHCs) ? "checked" : "" }}>
+                                <span class="text-sm">
+                                    {{ $CHC->name }}
+                                </span>
+                            </label>    
+                        @endforeach
+
+                        <h2 class="text-2xl my-2">Dementia Status</h2>
+                        @foreach ($dementiaStatuses as $dementiaStatus)
+                            <label class="md:w-2/3 block font-bold">
+                                <input class="mr-2 leading-tight" type="checkbox" name="dementia_statuses[]" value="{{ $dementiaStatus->id }}" {{ in_array($dementiaStatus->id, $selectedDementiaStatuses) ? "checked" : "" }}>
+                                <span class="text-sm">
+                                    {{ $dementiaStatus->description }}
                                 </span>
                             </label>    
                         @endforeach
@@ -84,7 +141,7 @@
                         <li class="">
                             <a href="/localities/{{ $locality['locality']->id }}" class="w-full my-4 rounded overflow-hidden shadow-sm bg-white p-4 hover:shadow-lg cursor-pointer flex flex-row justify-between items-center">
                                 <div class="flex-1">
-                                    <div class="font-bold">{{ $locality['locality']->name }}</div>
+                                    <div class="font-bold">{{ $locality['locality']->name }}</span></div>
                                     <div class="text-sm text-gray-700"><span class="text-gray-500">ACPR Code: </span>{{ $locality['locality']->code }}</div>
                                 </div>
                                 <div class="flex flex-col items-center">

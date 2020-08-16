@@ -25,6 +25,12 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/', function () {
+    // $json = Storage::disk('local')->get('people_sample_with_care_needs.json');
+    // $json = json_decode($json, true);
+    // $ageGroups = [];
+    // foreach ($json as $person) {
+    //     $ageGroups[] = AgeGroup::where(["range" => $person['AGE_GROUP']])->first();
+    // }
     return view('welcome');
 });
 

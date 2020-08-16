@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Locality;
+use App\State;
 use App\AgeGroup;
 use App\Sex;
 use App\IndigenousStatus;
 use App\Language;
 use App\CountryOfBirth;
 use App\Person;
+use App\ADL;
+use App\BEH;
+use App\CHC;
+use App\DementiaStatus;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -17,6 +22,17 @@ class InsightController extends Controller
 {
     public function listLocalities(Request $request) {
         $people = DB::table('people');
+
+        $selectedStates = $request->states;
+        if ($selectedStates) {
+            $people->where(function ($query) use ($selectedStates) {
+                foreach ($selectedStates as $key => $state) {
+                    $query->orWhere('state_id', $state);
+                }
+            });
+        } else {
+            $selectedStates = [];
+        }
 
         $selectedAgeGroups = $request->age_groups;
         if ($selectedAgeGroups) {
@@ -73,6 +89,50 @@ class InsightController extends Controller
             $selectedCountryOfBirths = [];
         }
 
+        $selectedADLs = $request->adls;
+        if ($selectedADLs) {
+            $people->where(function ($query) use ($selectedADLs) {
+                foreach ($selectedADLs as $key => $selectedADL) {
+                    $query->orWhere('a_d_l_id', $selectedADL);
+                }
+            });
+        } else {
+            $selectedADLs = [];
+        }
+
+        $selectedBEHs = $request->behs;
+        if ($selectedBEHs) {
+            $people->where(function ($query) use ($selectedBEHs) {
+                foreach ($selectedBEHs as $key => $selectedBEH) {
+                    $query->orWhere('b_e_h_id', $selectedBEH);
+                }
+            });
+        } else {
+            $selectedBEHs = [];
+        }
+
+        $selectedCHCs = $request->chcs;
+        if ($selectedCHCs) {
+            $people->where(function ($query) use ($selectedCHCs) {
+                foreach ($selectedCHCs as $key => $selectedCHC) {
+                    $query->orWhere('c_h_c_id', $selectedCHC);
+                }
+            });
+        } else {
+            $selectedCHCs = [];
+        }
+
+        $selectedDementiaStatuses = $request->dementia_statuses;
+        if ($selectedDementiaStatuses) {
+            $people->where(function ($query) use ($selectedDementiaStatuses) {
+                foreach ($selectedDementiaStatuses as $key => $selectedDementiaStatus) {
+                    $query->orWhere('dementia_status_id', $selectedDementiaStatus);
+                }
+            });
+        } else {
+            $selectedDementiaStatuses = [];
+        }
+
         $localitiesWithCount = $people->get()->groupBy('locality_id')->map(function ($item, $key) {
             return [
                 "locality" => Locality::find($item->first()->locality_id),
@@ -80,13 +140,18 @@ class InsightController extends Controller
             ];
         })->sortByDesc("count")->take(10);
 
+        $states = State::all();
         $ages = AgeGroup::all();
         $sexes = Sex::all();
         $indigenousStatuses = IndigenousStatus::all();
         $languages = Language::all();
         $countryOfBirths = CountryOfBirth::all();
+        $ADLs = ADL::all();
+        $BEHs = BEH::all();
+        $CHCs = CHC::all();
+        $dementiaStatuses = DementiaStatus::all();
         return view('insights')
-            ->with(compact("localitiesWithCount", "ages", "sexes", "indigenousStatuses", "languages", "countryOfBirths", "selectedAgeGroups", "selectedSexes", "selectedIndigenousStatuses", "selectedLanguages", "selectedCountryOfBirths"));
+            ->with(compact("localitiesWithCount", "states", "ages", "sexes", "indigenousStatuses", "languages", "countryOfBirths", "ADLs", "BEHs", "CHCs", "dementiaStatuses", "selectedStates", "selectedAgeGroups", "selectedSexes", "selectedIndigenousStatuses", "selectedLanguages", "selectedCountryOfBirths", "selectedADLs", "selectedBEHs", "selectedCHCs", "selectedDementiaStatuses"));
     }
         
 }
