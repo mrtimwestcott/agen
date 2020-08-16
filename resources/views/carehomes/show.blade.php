@@ -19,7 +19,7 @@
                 </div>
             </div>
                 
-            <div class="bg-gray-200 mb-16 rounded-lg p-8 shadow-md">
+            <div class="bg-gray-400 mb-16 rounded-lg p-8 shadow-md">
                 <h2 class="text-2xl font-bold">{{ $careHome->name }}</h2>
                 <div class="text-sm text-gray-700 mt-4">{{ str_replace("_x000D_", '', $careHome->description) }}</div>
                 <div class="flex mt-8">

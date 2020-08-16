@@ -19,12 +19,12 @@
                 </div>
             </div>
                 
-            <div class="bg-gray-200 mb-16 rounded-lg p-8 shadow-md">
+            <div class="bg-gray-400 mb-16 rounded-lg p-8 shadow-md">
                 <h2 class="text-2xl font-bold">{{ $locality->name }}</h2>
                 <div class="text-gray-600">Patients: {{ $numPatients }}</div>
                 
                 <div class="flex mt-8">
-                    <div class="w-1/2 mr-8">
+                    <div class="">
                         <h3 class="text-xl font-bold">Care Facilities</h3>
                         <ul>
                             @foreach ($careHomes as $careHome)
@@ -39,11 +39,11 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="w-1/2 p-4">
+                    {{-- <div class="w-1/2 p-4">
                         <h3 class="text-xl font-bold">Home Based Services</h3>
 
                         
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
